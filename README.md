@@ -5,7 +5,7 @@ Project 2 for Northwestern Data Science Bootcamp
 - provide an interactive way for users to explore the data
 - 10 min presentation (theme, coding approach, data munging techniques, and final visualizaton)
 
-### Presentation: Saturday March 3
+### Presentation: Saturday April 6
 
 ### Requirements
 - Flask app (including html and js)
@@ -29,4 +29,20 @@ Olympics!
 3. Games added/subtracted each year
 4. Summer/winter/special olympics
 
+1. Cloud-based database set up
+2. Scrape into a database
 
+
+
+## Columns: 
+- Country
+- number of gold medals
+- number of silver medals
+- number of bronze medals
+- year
+- 
+
+## Views:
+1. Map
+2. Country Olympic Specifics
+3. Country Facts Specifics
