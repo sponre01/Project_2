@@ -40,7 +40,9 @@ Olympics!
 - number of silver medals
 - number of bronze medals
 - year
-- 
+- country code
+- country lat
+- country lon
 
 ## Views:
 1. Map
