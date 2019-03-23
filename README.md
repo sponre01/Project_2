@@ -21,6 +21,12 @@ Project 2 for Northwestern Data Science Bootcamp
 Web scraping + Leaflet (or Plotly)
 
 ### Theme
-Pirates
+Olympics!
+
+#### Things we can do
+1. Map with each country clickable with pop-up of metal count and game
+2. The flag and national anthem will play when you click
+3. Games added/subtracted each year
+4. Summer/winter/special olympics
 
 
