@@ -3,6 +3,15 @@
 // gold: #ffd700 or #D6AF36
 // grayish violet: #c5c1cf
 
+// Create function to color countries based on total medals won
+function getColor(d) {
+  return d > 700 ? '#D6AF36' :
+         d > 400 ? '#FEE101' :
+         d > 200 ? '#D7D7D7' :
+         d > 50  ? '#A7A7AD' :
+         d > 10  ? '#824A02' :
+                   '#A77044';
+}
 
 // Creating map object
 var map = L.map("map", {
@@ -26,7 +35,7 @@ d3.json(link, function(data) {
     style: function(feature) {
       return {
         color: "white",
-        fillColor: "silver",
+        fillColor: getColor(feature.properties.total),
         fillOpacity: 0.5,
         weight: 1.0
       };
@@ -38,7 +47,7 @@ d3.json(link, function(data) {
         mouseover: function(event) {
           layer = event.target;
           layer.setStyle({
-            fillOpacity: 0.1
+            fillOpacity: 0.9
           });
         },
         mouseout: function(event) {
@@ -49,7 +58,12 @@ d3.json(link, function(data) {
         },
       });
       // Popup info
-      layer.bindPopup("<h1>" + feature.properties.ADMIN + "</h1> <hr> <h2>" + feature.properties.ISO_A3 + "</h2>" + "<button id='button' type='submit' class='btn btn-default'>See the Breakdown</button>");
+      layer.bindPopup("<h1>" + feature.properties.ADMIN + "</h1> <hr> <h2>" + 
+                      //feature.properties.ISO_A3 + "</h2>" + 
+                      "<p><h3> Gold medals: " + feature.properties.gold + "</h3></p>" +
+                      "<p><h3> Silver medals: " + feature.properties.silver +"</h3></p>" +
+                      "<p><h3> Bronze medals: " + feature.properties.bronze +"</h3></p>" +
+                      "<button id='button' type='submit' class='btn btn-default'>See the Breakdown</button>");
     }
   }).addTo(map);
 
@@ -57,38 +71,6 @@ d3.json(link, function(data) {
 // Button
 var button = d3.select("#button");
   button.on("click", function() {
-    tbody.selectAll('*').remove();
-    var inputDate = d3.select("#datetime");
-    var inputText = inputDate.property("value")
-    var filteredData = tableData.filter(x => x.datetime === inputText);
+    // go to new website;
       })
     })
-
-//   // Create a baseMaps object
-// var baseMaps = {
-//   "Street Map": streetmap,
-//   "Dark Map": darkmap
-// };
-
-// // Create an overlay object
-// var overlayMaps = {
-//   "State Population": states,
-//   "City Population": cities
-// };
-
-// // Define a map object
-// var myMap = L.map("map", {
-//   center: [37.09, -95.71],
-//   zoom: 5,
-//   layers: [streetmap, states, cities]
-// });
-
-// // Pass our map layers into our layer control
-// // Add the layer control to the map
-// L.control.layers(baseMaps, overlayMaps, {
-//   collapsed: false
-// }).addTo(myMap);
-
-
-
-});
