@@ -3,6 +3,24 @@
 // gold: #ffd700 or #D6AF36
 // grayish violet: #c5c1cf
 
+function init() {
+    // if initializeDefaultPlugins returns false, we cannot play sound in this browser
+    if (!createjs.Sound.initializeDefaultPlugins()) {return;}
+ 
+    var audioPath = "raw/";
+    var sounds = [{id:"Music", src:"Olympics John Williams Anthology.mp3"}];
+ 
+    createjs.Sound.alternateExtensions = ["mp3"];
+    createjs.Sound.addEventListener("fileload", handleLoad);
+    createjs.Sound.registerSounds(sounds, audioPath);
+}
+ 
+function handleLoad(event) {
+    createjs.Sound.play(event.src);
+}
+
+
+
 // Create function to color countries based on total medals won
 function getColor(d) {
   return d > 700 ? '#D6AF36' :
@@ -28,18 +46,33 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(map);
 
 var link = "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson";
+var medal_data = "/raw/country_agg.json" 
 
-// Grab GEOJSON
-d3.json(link, function(data) {
-  L.geoJson(data, {
+Promise.all([d3.json(link), d3.json(medal_data)]).then(function(data) {
+  console.log(data[1].Total);
+  L.geoJson(data[0].ISO_A3, {
     style: function(feature) {
       return {
         color: "white",
-        fillColor: getColor(feature.properties.total),
+        fillColor: getColor(data[1].Total),
         fillOpacity: 0.5,
         weight: 1.0
       };
     },
+
+
+
+// // Grab GEOJSON
+// d3.json(link, function(data) {
+//   L.geoJson(data, {
+//     style: function(feature) {
+//       return {
+//         color: "white",
+//         fillColor: getColor(feature.properties.total),
+//         fillOpacity: 0.5,
+//         weight: 1.0
+//       };
+//     },
 
   // Mouseover/mouseout events
     onEachFeature: function(feature, layer) {
@@ -73,4 +106,4 @@ var button = d3.select("#button");
   button.on("click", function() {
     // go to new website;
       })
-    })
+    });
