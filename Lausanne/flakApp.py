@@ -10,7 +10,8 @@ import datetime as dt
 from sqlalchemy.pool import NullPool
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
- 
+import pymysql
+pymysql.install_as_MySQLdb()
 
 # engine = create_engine("sqlite:///Resources/hawaii.sqlite",
 #                 poolclass=NullPool)
@@ -27,11 +28,11 @@ Base = automap_base()
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/maps')
 def hello_world():
     """List all available api routes."""
     return (
-      render_template("index.html")
+      render_template("map.html")
     )
 
  
