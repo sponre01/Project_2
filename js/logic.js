@@ -1,32 +1,84 @@
-d3.csv("dummY_data.csv", function(error, data) {
-  if (error) return console.warn(error);
-  console.log(data);})
+// Test loading a character:
+//console.log("🏃‍♀️");
+var Archery = "🏃‍♀️";
+console.log (Archery);
+// load csv
 
-// Create our initial map object
-// Set the longitude, latitude, and the starting zoom level
-var myMap = L.map("map", {
-  center: [41.8781, -87.6298],
-  zoom: 3
+var csv = d3.csv("book1.csv", function(error, data) {
+  if (error) return console.warn(error);
+  console.log(data);
+
+  var breakDown = data.map(data => data.port);
+  console.log("OlympicsInfo", breakDown);  /// Should I use this instead?
 });
 
-console.log(myMap)
-// Add a tile layer (the background map image) to our map
-// We use the addTo method to add objects to our map
-L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-  attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-  maxZoom: 18,
-  id: "mapbox.streets",
-  accessToken: API_KEY
-}).addTo(myMap);
+function handleSubmit() {
+  // Prevent the page from refreshing
+  d3.event.preventDefault();
+
+  // Select the input value from the form
+  var breakDown = d3.select("#OlympicsInfo").node().value;
+  console.log(breakDown);
+
+  // clear the input value
+  // d3.select("#OlympicsInfo").node().value = "";
+
+  // Build the plot with the new stock
+  buildPlot(breakDownx);
+};
+
+
+function unpack(rows, index) {      // Is this right?
+  return rows.map(function(row) {
+    return row[index];
+    });
+};
+
+
+  function buildPlot(stock) {  
+  
+    csv.then(function(data) {
+      var city = data.dataset.City;
+      var edition = data.dataset.Edition;
+      var sport = data.dataset.Sport;
+      var discipline = data.dataset.discipline;
+      var athlete = data.dataset.athlete;
+      var noc = data.dataset.NOC;
+      var gender = data.dataset.gender;
+      var event = data.dataset.event;
+      var event_gender = data.dataset.event_gender;
+      var medal = data.dataset.medal;
+
+
+      var trace1 = {
+        type: "scatter",
+        mode: "lines",
+        name: name,
+        x: city,
+        y: edition,
+        line: {
+          color: "#17BECF"
+      }
+    };
+    })};
+  
+
+var layout = {
+  title: `${city} city`,
+  xaxis: {
+    autorange: true,
+  },
+  yaxis: {
+    autorange: true,
+    type: "linear"
+  }
+};
+
+Plotly.newPlot("plot", trace1, layout);
+
+
+  // Add event listener for submit button
+d3.select("#submit").on("click", handleSubmit);
 
 
 
-// Create a new marker
-// Pass in some initial options, and then add it to the map using the addTo method
-var marker = L.marker([41.8964, -87.6198], {
-  draggable: true,
-  title: "Ilya My love"
-}).addTo(myMap);
-
-// Binding a pop-up to our marker
-marker.bindPopup("Coding bootcamp!");
