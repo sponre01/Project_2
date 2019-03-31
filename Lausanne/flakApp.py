@@ -35,6 +35,10 @@ def hello_world():
       render_template("map.html")
     )
 
- 
+@app.route('/mapData')
+def map_data():
+  return(
+    print('here will be data')
+  )
 if __name__ == '__main__':
     app.run(debug=True)
