@@ -28,13 +28,17 @@ Base = automap_base()
 
 app = Flask(__name__)
 
-@app.route('/maps')
+@app.route('/map')
 def hello_world():
     """List all available api routes."""
     return (
       render_template("map.html")
     )
-
+@app.route('/')
+def home():
+  return(
+    render_template('home.html')
+  )
 @app.route('/mapData')
 def map_data():
   return(
