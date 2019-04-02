@@ -62,18 +62,22 @@ def home():
   )
 @app.route('/mapData')
 def map_data():
-  subq = (db.session.query(raw.country_id,func.count(raw.id)).group_by(raw.country_id)).subquery()
+  subq = (db.session.query(raw.country_id,raw.Medal,func.count(raw.id)).group_by(raw.country_id,raw.Medal)).subquery()
   results=db.session.query(country_ref.country_name, country_ref.code, subq).join(subq).all()
-  cName = [result[0] for result in results]
-  code = [result[1] for result in results]
-  nMedals = [result[3] for result in results]
-  map_data_api = [{
-    "country_name":cName,
-    "code": code,
-    "nMedals":nMedals
-  }]
+  country_dic ={}
+  for result in results:
+    if result[2] in country_dic:
+        country_dic[result[2]]['medals'][result[3]] = result[4]
+    else:
+        country ={}
+
+        country['name']  = result[0]
+        country['code'] = result[1]
+        country['medals'] = {}
+        country['medals'][result[3]] = result[4]
+        country_dic[result[2]] = country
   return(
-    jsonify(map_data_api)
+    jsonify(country_dic)
   )
 
 @app.route("/api/v1.0/olympians", methods=['GET'])
