@@ -12,6 +12,8 @@ from flask import Flask, jsonify, render_template, abort, request
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import pymysql
+
+
 pymysql.install_as_MySQLdb()
 
 # engine = create_engine("sqlite:///Resources/hawaii.sqlite",
@@ -23,6 +25,8 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 Olympian = Base.classes.olympics_raw
 # Save references to each table
+
+
 
 # Create our session (link) from Python to the DB
 session = Session(engine)
@@ -39,6 +43,12 @@ print(cursor.fetchall())
 
 app = Flask(__name__)
 
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../data/new_olympics.db'
+db = SQLAlchemy(app)
+
+from models import *
+
 @app.route('/map')
 def hello_world():
     """List all available api routes."""
@@ -52,8 +62,18 @@ def home():
   )
 @app.route('/mapData')
 def map_data():
+  subq = (db.session.query(raw.country_id,func.count(raw.id)).group_by(raw.country_id)).subquery()
+  results=db.session.query(country_ref.country_name, country_ref.code, subq).join(subq).all()
+  cName = [result[0] for result in results]
+  code = [result[1] for result in results]
+  nMedals = [result[3] for result in results]
+  map_data_api = [{
+    "country_name":cName,
+    "code": code,
+    "nMedals":nMedals
+  }]
   return(
-    print('here will be data')
+    jsonify(map_data_api)
   )
 
 @app.route("/api/v1.0/olympians", methods=['GET'])
