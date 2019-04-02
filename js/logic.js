@@ -1,9 +1,15 @@
-// Test loading a character:
+// Test loading a character for later to be used as markers:
 console.log("🏃‍♀️");
 var Archery = "🏃‍♀️";
-console.log (Archery);
+// console.log(Vollyball);
 
 
+function sport_emoji(semoji) {
+  if (semoji = Sports_emoji) 
+  console.log(semoji)
+  return semoji;
+}
+;
 
 // load csv ===  didnt use but good for error check
 var Olympics_csv = d3.csv("../book1.csv", function(error, data) {
@@ -44,24 +50,27 @@ function unpack(rows, index) {
     d3.csv("../book1.csv", function(data) {
       var city = data.map(x => x.City);
       var edition = data.map(x => x.Edition);
-      var sport = data.Sport;
-      var discipline = data.discipline;
-      var athlete = data.athlete;
-      var noc = data.NOC;
-      var gender = data.gender;
-      var event = data.event;
-      var event_gender = data.event_gender;
-      var medal = data.medal; 
+      var sport = data.map( x => x.Sport);
+      var discipline = data.map(x => x.Discipline);
+      var athlete = data.map(x => x.Athlete);
+      var noc = data.map(x => x.NOC);
+      var gender = data.map(x => x.Gender);
+      var event = data.map(x => x.Event);
+      var event_gender = data.map(x => x.Event_gender);
+      var medal = data.map(x => x.Medal); 
     
-      console.log("city", city);
-      console.log("edition",edition);
-      console.log("data", data);
+      // console.log("city", city);
+      // console.log("edition",edition);
+      // console.log("data", data);
+
 
       var trace1 = {
         type: "scatter",
-        mode: "lines",
-        name: city,
-        x: city,
+        // fix how to add the function
+        // mode = 'markers', symbol = ~Species, symbols = c(semoji), marker = list(size = 10),
+        mode: 'markers',
+        name: NOC,
+        x: NOC,
         y: edition,
         line: {
           color: "#17BECF" } };
@@ -70,7 +79,7 @@ function unpack(rows, index) {
       var data = [trace1]; 
 
       var layout = {
-      title: `${city} city`,
+      title: `${NOC} NOC`,
       xaxis: {
         autorange: true,
       },
