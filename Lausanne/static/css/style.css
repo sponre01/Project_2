@@ -54,3 +54,11 @@ button {
 button:hover {
   background: lightsalmon;
 }
+
+.bar {
+  fill: orange;
+}
+
+.bar:hover {
+  fill: green;
+}
