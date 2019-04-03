@@ -5,7 +5,7 @@ Project 2 for Northwestern Data Science Bootcamp
 - provide an interactive way for users to explore the data
 - 10 min presentation (theme, coding approach, data munging techniques, and final visualizaton)
 
-### Presentation: Saturday March 3
+### Presentation: Saturday April 6
 
 ### Requirements
 - Flask app (including html and js)
@@ -17,7 +17,34 @@ Project 2 for Northwestern Data Science Bootcamp
 - user-driven interactions are required (menus, dropdown, textboxes, etc) - bootstrap. Add in hover or click effects
 - Final visualization includes at least 3 views
 
-### Tracks
-1. "custom" D3: non-standard graph or chart
-2. Web scraping + Leaflet (yay) or Plotly (boo)
-3. dashboard page with multiple charts updating from the same data
+### Chosen Track
+Web scraping + Leaflet (or Plotly)
+
+### Theme
+Olympics!
+
+#### Things we can do
+1. Map with each country clickable with pop-up of metal count and game
+2. The flag and national anthem will play when you click
+3. Games added/subtracted each year
+4. Summer/winter/special olympics
+
+1. Cloud-based database set up
+2. Scrape into a database
+
+
+
+## Columns: 
+- Country
+- number of gold medals
+- number of silver medals
+- number of bronze medals
+- year
+- country code
+- country lat
+- country lon
+
+## Views:
+1. Map
+2. Country Olympic Specifics
+3. Country Facts Specifics
