@@ -1,0 +1,64 @@
+/* Homepage */
+
+
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.jumbotron {
+  background-color: gold;
+}
+
+.col-sm-4 {
+  font-weight: bold; 
+  
+  color: black; 
+
+}
+
+/* Add a gray background color and some padding to the footer */
+footer {
+  background-color: gold;
+  padding: 25px;
+}
+
+
+/* Map Page */
+
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#map,
+body,
+html {
+  height: 100%;
+}
+
+body {
+  padding: 20px;
+}
+
+button {
+  margin-top: 20px;
+  line-height: 60px;
+  font-weight: bold;
+  padding: 0 40px;
+  background: salmon;
+  border: none;
+}
+button:hover {
+  background: lightsalmon;
+}
+
+.bar {
+  fill: orange;
+}
+
+.bar:hover {
+  fill: green;
+}
