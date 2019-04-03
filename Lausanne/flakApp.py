@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import datetime as dt
 from sqlalchemy.pool import NullPool
-from flask import Flask, jsonify, render_template, abort, request
+from flask import Flask, jsonify, render_template, abort, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import pymysql
@@ -85,6 +85,10 @@ def get_parameters():
   where_clause =  ' AND '.join([f"{x} = '{params[x].capitalize()}'" for x in param_keys])
   print("----------------------------------------------------------------------")
   print(where_clause)
+
+  if len(param_keys) == 0:
+    return redirect("/api/v1.0/olympians")
+
   df = pd.read_sql_query(f"SELECT * FROM olympics_raw WHERE {where_clause}", con = engine)
   
   print(df.head())
