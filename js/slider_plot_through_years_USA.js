@@ -1,64 +1,61 @@
 // script taken from https://plot.ly/javascript/gapminder-example/
 
-Plotly.d3.csv('../year_gender_Medals.csv', function (err, data) {
-  // Create a lookup table to sort and regroup the columns of data,
-  // first by year, then by continent:
-  var lookup = {};
+Plotly.d3.csv('../year_gender_Medals.csv', function (error, data) {
+    if (error) return console.warn(error)
+    console.log(data);
 
 
-  
-//////////////////////
-// from 14-3-6 excersise
-// Select the upvote and downvote buttons
-var clickSport = d3.select("#btn");
-// Use D3 `.on` to attach a click handler sports&year
-clickSport.on("click", function() {
-    getData()
-});
-//////////////////////////////
+
+//   Create a lookup table to sort and regroup the columns of data,
+//   first by year, then by continent:
 
 
 //Dont use these variables, use the ones below in the data
+    var lookup = {};
 
-  function getData(Edition, Sport) {
-    var byYear, trace;
-    if (!(byYear = lookup[Edition])) {;
-      byYear = lookup[Edition] = {};
-    }
+    function getData(Edition, Sport) {
+        var byYear, trace;
+        if (!(byYear = lookup[Edition])) {
+            byYear = lookup[Edition] = {};
+        };
+    // foreach
 
+
+        // If a container for this year + continent doesn't exist yet,
+        // then create one:
+        if (!(trace = byYear[Sport])) {
+            trace = byYear[Sport] = {
+            x: [],
+            y: [],
+            id: [],
+            text: [],
+            marker: {size: []} /// this is where i will add the emoji later
+            };
+        }
+        return trace;
     
-	 // If a container for this year + continent doesn't exist yet,
-	 // then create one:
-    if (!(trace = byYear[Sport])) {
-      trace = byYear[Sport] = {
-        x: [],
-        y: [],
-        id: [],
-        text: [],
-        marker: {size: []} /// this is where i will add the emoji later
-      };
-    }
-    return trace;
-  }
+};
 
-  // Go through each row, get the right trace, and append the data:
+
+//   // Go through each row, get the right trace, and append the data:
   for (var i = 0; i < data.length; i++) {
     
     var datum = data[i];
     //console.log (datum);
-    var trace = getData(datum.Edition, datum.Sport); // capitalize verttihng to fit the cvs and ignore the var up
+    var trace = getData(datum.Edition, datum.Sport); 
     trace.text.push(datum.Sport);
-    trace.id.push(datum.Medal);
-    trace.x.push(datum.Medal);
+    trace.id.push(datum.Medal_Bronze);
+    trace.x.push(datum.Medal_Gold);
     trace.y.push(datum.Edition);
-    trace.marker.size.push(datum.Medal);
+    trace.marker.size.push(datum.Medal_Silver);
 
-  }
+  };
+//   getData(data);
+//   console.log(datum.Edition);
+//   console.log(datum.Medal_Bronze)
 
-// console.log("lookup", lookup);
-// console.log("city", city);
-// console.log("edition",edition);
-  //console.log("data", data);
+
+
 
   // Get the group names:
   var years = Object.keys(lookup);
@@ -188,3 +185,21 @@ clickSport.on("click", function() {
     frames: frames,
   });
 });
+
+  
+//////////////////////
+// from 14-3-6 excersise
+var clickSport = d3.select("#btn");
+// Use D3 `.on` to attach a click handler sports&year
+clickSport.on("click", function() {
+    getData()
+});
+//////////////////////////////
+
+// console.log("lookup", lookup);
+// console.log("City", City);
+// console.log("Edition",Edition);
+//console.log("data", data);
+
+
+/////////////////////

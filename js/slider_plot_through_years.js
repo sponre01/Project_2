@@ -26,7 +26,7 @@ Plotly.d3.csv('../book1.csv', function (err, data) {
       };
     }
     return trace;
-  }
+  };
 
   // Go through each row, get the right trace, and append the data:
   for (var i = 0; i < data.length; i++) {
