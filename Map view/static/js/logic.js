@@ -53,7 +53,7 @@ d3.json(link, function(data) {
         },
       });
       // Popup info
-      layer.bindPopup("<h1>" + feature.properties.ADMIN +"<br>"+  feature.properties.ISO_A3+"<br>"+feature.properties.total + " total medals" + "</h1> <hr> <h2>" + 
+      layer.bindPopup("<h1>" + feature.properties.ADMIN +"<br>"+ feature.properties.total + " total medals" + "</h1> <hr> <h2>" + 
       //feature.properties.ISO_A3 + "</h2>" + 
       "<p><h3> Gold medals: " + feature.properties.gold + "</h3></p>" +
       "<p><h3> Silver medals: " + feature.properties.silver +"</h3></p>" +
@@ -71,12 +71,12 @@ legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 10, 100, 500, 1000],
         labels = [];
-        div.innerHTML+='<div><b>Legend</b></div><br>';
+        div.innerHTML+='<div><b><h3>Legend</h3></b></div>';
     // loop through our magnitude intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-            '<i style=\"background:' + getColor(grades[i] + 1) + '\"></li> ' +
-            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            '<i style=\"background:' + getColor(grades[i] + 1) + '\"></li> ' + '<b>' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] +'</b>'+ '<br>' : '+');
     }
  
     return div;
