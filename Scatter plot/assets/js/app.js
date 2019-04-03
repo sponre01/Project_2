@@ -1,29 +1,15 @@
 // D3 Animated Scatter Plot
 
-// Section 1: Pre-Data Setup
+// Pre-Data Setup
 // ===========================
-// Before we code any data visualizations,
-// we need to at least set up the width, height and margins of the graph.
-// Note: I also added room for label text as well as text padding,
-// though not all graphs will need those specifications.
-
-// Grab the width of the containing box
 var width = parseInt(d3.select("#scatter").style("width"));
-
-// Designate the height of the graph
 var height = width - width / 3.9;
-
-// Margin spacing for graph
 var margin = 20;
 
-// space for placing words
 var labelArea = 110;
-
-// padding for the text at the bottom and left axes
 var tPadBot = 40;
 var tPadLeft = 40;
 
-// Create the actual canvas for the graph
 var svg = d3
   .select("#scatter")
   .append("svg")
@@ -31,9 +17,6 @@ var svg = d3
   .attr("height", height)
   .attr("class", "chart");
 
-// Set the radius for each dot that will appear in the graph.
-// Note: Making this a function allows us to easily call
-// it in the mobility section of our code.
 var circRadius;
 function crGet() {
   if (width <= 530) {
@@ -45,19 +28,11 @@ function crGet() {
 }
 crGet();
 
-// The Labels for our Axes
-
-// A) Bottom Axis
+// Bottom Axis
 // ==============
-
-// We create a group element to nest our bottom axes labels.
 svg.append("g").attr("class", "xText");
-// xText will allows us to select the group without excess code.
 var xText = d3.select(".xText");
 
-// We give xText a transform property that places it at the bottom of the chart.
-// By nesting this attribute in a function, we can easily change the location of the label group
-// whenever the width of the window changes.
 function xTextRefresh() {
   xText.attr(
     "transform",

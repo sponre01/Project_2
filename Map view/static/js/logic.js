@@ -1,35 +1,12 @@
-// silver: #C0C0C0 or #A7A7AD
-// bronze: #cd7f32 or #A77044
-// gold: #ffd700 or #D6AF36
-// grayish violet: #c5c1cf
-
-function init() {
-    // if initializeDefaultPlugins returns false, we cannot play sound in this browser
-    if (!createjs.Sound.initializeDefaultPlugins()) {return;}
- 
-    var audioPath = "raw/";
-    var sounds = [{id:"Music", src:"Olympics John Williams Anthology.mp3"}];
- 
-    createjs.Sound.alternateExtensions = ["mp3"];
-    createjs.Sound.addEventListener("fileload", handleLoad);
-    createjs.Sound.registerSounds(sounds, audioPath);
-}
- 
-function handleLoad(event) {
-    createjs.Sound.play(event.src);
-}
-
-
-
 // Create function to color countries based on total medals won
 function getColor(d) {
-  return d > 700 ? '#D6AF36' :
-         d > 400 ? '#FEE101' :
-         d > 200 ? '#D7D7D7' :
-         d > 50  ? '#A7A7AD' :
-         d > 10  ? '#824A02' :
-                   '#A77044';
-}
+    return d > 700 ? '#D6AF36' :
+           d > 400 ? '#FEE101' :
+           d > 200 ? '#D7D7D7' :
+           d > 50  ? '#A7A7AD' :
+           d > 10  ? '#824A02' :
+                     '#A77044';
+  }
 
 // Creating map object
 var map = L.map("map", {
@@ -45,34 +22,20 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: API_KEY
 }).addTo(map);
 
-var link = "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson";
-var medal_data = "/raw/country_agg.json" 
+var link = "raw/geo_json_total.json";
 
-Promise.all([d3.json(link), d3.json(medal_data)]).then(function(data) {
-  console.log(data[1].Total);
-  L.geoJson(data[0].ISO_A3, {
+// Grab GEOJSON
+d3.json(link, function(data) {
+    console.log(data.features)
+  L.geoJson(data, {
     style: function(feature) {
       return {
         color: "white",
-        fillColor: getColor(data[1].Total),
-        fillOpacity: 0.5,
-        weight: 1.0
+        fillColor: getColor(feature.properties.total),
+        fillOpacity: 0.8,
+        weight: 1.5
       };
     },
-
-
-
-// // Grab GEOJSON
-// d3.json(link, function(data) {
-//   L.geoJson(data, {
-//     style: function(feature) {
-//       return {
-//         color: "white",
-//         fillColor: getColor(feature.properties.total),
-//         fillOpacity: 0.5,
-//         weight: 1.0
-//       };
-//     },
 
   // Mouseover/mouseout events
     onEachFeature: function(feature, layer) {
@@ -80,7 +43,7 @@ Promise.all([d3.json(link), d3.json(medal_data)]).then(function(data) {
         mouseover: function(event) {
           layer = event.target;
           layer.setStyle({
-            fillOpacity: 0.9
+            fillOpacity: 0.1
           });
         },
         mouseout: function(event) {
@@ -91,19 +54,13 @@ Promise.all([d3.json(link), d3.json(medal_data)]).then(function(data) {
         },
       });
       // Popup info
-      layer.bindPopup("<h1>" + feature.properties.ADMIN + "</h1> <hr> <h2>" + 
-                      //feature.properties.ISO_A3 + "</h2>" + 
-                      "<p><h3> Gold medals: " + feature.properties.gold + "</h3></p>" +
-                      "<p><h3> Silver medals: " + feature.properties.silver +"</h3></p>" +
-                      "<p><h3> Bronze medals: " + feature.properties.bronze +"</h3></p>" +
-                      "<button id='button' type='submit' class='btn btn-default'>See the Breakdown</button>");
+      layer.bindPopup("<h1>" + feature.properties.ADMIN +"<br>"+ feature.properties.total + " total medals" + "</h1> <hr> <h2>" + 
+      //feature.properties.ISO_A3 + "</h2>" + 
+      "<p><h3> Gold medals: " + feature.properties.gold + "</h3></p>" +
+      "<p><h3> Silver medals: " + feature.properties.silver +"</h3></p>" +
+      "<p><h3> Bronze medals: " + feature.properties.bronze +"</h3></p>" +
+      "<button id='button' type='submit' class='btn btn-default'>See the Breakdown</button>");
+
     }
   }).addTo(map);
-
-
-// Button
-var button = d3.select("#button");
-  button.on("click", function() {
-    // go to new website;
-      })
-    });
+});
