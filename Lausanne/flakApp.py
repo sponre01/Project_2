@@ -8,10 +8,12 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import datetime as dt
 from sqlalchemy.pool import NullPool
-from flask import Flask, jsonify, render_template, abort, request, redirect
+from flask import Flask, jsonify, render_template, abort, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import pymysql
+
+
 pymysql.install_as_MySQLdb()
 
 # engine = create_engine("sqlite:///Resources/hawaii.sqlite",
@@ -23,6 +25,8 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 Olympian = Base.classes.olympics_raw
 # Save references to each table
+
+
 
 # Create our session (link) from Python to the DB
 session = Session(engine)
@@ -39,6 +43,12 @@ print(cursor.fetchall())
 
 app = Flask(__name__)
 
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../data/new_olympics.db'
+db = SQLAlchemy(app)
+
+from models import *
+
 @app.route('/map')
 def hello_world():
     """List all available api routes."""
@@ -50,10 +60,31 @@ def home():
   return(
     render_template('home.html')
   )
+@app.route('/country/')
+def land():
+  return(
+    render_template('country.html')
+  )
+@app.route('/data/<csv>')
+def data(csv):
+  return send_from_directory('../data/',csv, as_attachment=True)
 @app.route('/mapData')
 def map_data():
+  subq = (db.session.query(raw.country_id,raw.Medal,func.count(raw.id)).group_by(raw.country_id,raw.Medal)).subquery()
+  results=db.session.query(country_ref.country_name, country_ref.code, subq).join(subq).all()
+  country_dic ={}
+  for result in results:
+    if result[2] in country_dic:
+        country_dic[result[2]]['medals'][result[3]] = result[4]
+    else:
+        country ={}
+        country['name']  = result[0]
+        country['code'] = result[1]
+        country['medals'] = {}
+        country['medals'][result[3]] = result[4]
+        country_dic[result[2]] = country
   return(
-    print('here will be data')
+    jsonify(country_dic)
   )
 
 @app.route("/api/v1.0/olympians", methods=['GET'])
@@ -71,7 +102,7 @@ def names():
 # example : http://127.0.0.1:5000/api/v1.0/olympians/params?Edition=2000&Sport=Aquatics
 def get_parameters():
   params = request.args.to_dict()
-    
+  
   def parameters(params):
     possible_params = ["City",	"Edition",	"Sport",	"Discipline",	"Athlete",	"NOC",	"Gender",	"Event",	"Event_gender",	"Medal"]
     param_keys = [p.capitalize() for p in list(params.keys())]
@@ -81,6 +112,7 @@ def get_parameters():
   # testing return
   # return jsonify(params)
   param_keys = parameters(params)
+  
   print(param_keys)
   where_clause =  ' AND '.join([f"{x} = '{params[x].capitalize()}'" for x in param_keys])
   print("----------------------------------------------------------------------")
