@@ -21,10 +21,12 @@ id: "mapbox.outdoors",
 accessToken: API_KEY
 }).addTo(map);
 
-var link = "raw/geo_json_total.json";
+var link = "data/geo_json_total.json";
 
 // Grab GEOJSON
-d3.json(link, function(data) {
+d3.json(link, function(error, data) {
+  if (error) return console.warn(error);
+  
   console.log(data.features)
 L.geoJson(data, {
   style: function(feature) {
