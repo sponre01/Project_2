@@ -1,5 +1,10 @@
-# Project_2
-Project 2 for Northwestern Data Science Bootcamp
+# Project 2 - An Olympic Medal Overview
+This is Project 2 for Northwestern's Data Science Bootcamp 2019. Out task was to pick an interesting data set and provide and interactive way for users to explore the data. Using a combination of web-scraping and Leaflet, we created a website with three distinct views: the homepage, a heat-map, and a filterable table.
+
+### The Data
+- 
+- 
+
 
 ### Tell a story through a visualization
 - provide an interactive way for users to explore the data
@@ -7,10 +12,10 @@ Project 2 for Northwestern Data Science Bootcamp
 
 ### Presentation: Saturday April 6
 
-### Requirements
+### What we've included:
 - Flask app (including html and js)
 - Javascript
-- at least one database
+- Our database
 - Heroku is encouraged
 - Must have one JS library that we did not cover in class: doesn't have to be crazy, just pick something you can use to learn to read someone else's documentation. Pick something popular!
 - Dataset must have at least 100 records
@@ -32,6 +37,9 @@ Olympics!
 1. Cloud-based database set up
 2. Scrape into a database
 
+
+### Challenges:
+1. __Making this map was harder than it seems!__ We used Leaflet and an [open source geojson file](https://github.com/datasets/geo-countries) to make polygons for every country in the world. Then, we wanted to color the countries according to their total medal count - however, the medal data existed in a different place. We spent a long time researching ways to build a map using two different data sources, however, in the end, we learned __it's much better to spend the time properly merging the data on the back-end__, rather than trying to implement a complicated solution on the front-end.
 
 
 ## Columns: 
