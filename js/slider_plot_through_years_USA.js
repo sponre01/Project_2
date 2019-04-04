@@ -4,17 +4,19 @@ Plotly.d3.csv('../year_gender_Medals.csv', function (err, data) {
   // Create a lookup table to sort and regroup the columns of data,
   // first by year, then by continent:
   var lookup = {};
-
+console.log(data);
 
   
-//////////////////////
-// from 14-3-6 excersise
-// Select the upvote and downvote buttons
-var clickSport = d3.select("#btn");
-// Use D3 `.on` to attach a click handler sports&year
-clickSport.on("click", function() {
-    getData()
-});
+// //////////////////////
+// // from 14-3-6 excersise
+// // Select the upvote and downvote buttons
+// var clickSport = d3.select(".btn");
+// // Use D3 `.on` to attach a click handler sports&year
+// clickSport.on("click", function() {
+//     d3.event.preventDefault();
+//     getData();
+
+// });
 //////////////////////////////
 
 
@@ -45,13 +47,13 @@ clickSport.on("click", function() {
   for (var i = 0; i < data.length; i++) {
     
     var datum = data[i];
-    //console.log (datum);
+    console.log (datum);
     var trace = getData(datum.Edition, datum.Sport); // capitalize verttihng to fit the cvs and ignore the var up
     trace.text.push(datum.Sport);
-    trace.id.push(datum.Medal);
-    trace.x.push(datum.Medal);
-    trace.y.push(datum.Edition);
-    trace.marker.size.push(datum.Medal);
+    trace.id.push(datum.Medal_Gold);
+    trace.x.push(datum.Medal_Gold+datum.Medal_Silver+datum.Medal_Bronze);
+    trace.y.push(datum.Medal_Gold);
+    trace.marker.size.push(datum.Medal_Gold);
 
   }
 
@@ -124,8 +126,8 @@ clickSport.on("click", function() {
 
   var layout = {
     xaxis: {
-      title: 'year',
-      range: [1900, 2010]
+      title: 'Gold Medal',
+      range: [0,100]
     },
     yaxis: {
       title: 'Number of medals',

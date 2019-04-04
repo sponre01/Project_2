@@ -23,6 +23,8 @@
   <!-- when in doubt use jello world in the part to check if it works -->
   <!-- <div id="map"></div>  I will use this later to add the country in the background--> 
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
+
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
   <form class="form-inline">
@@ -35,13 +37,22 @@
         </button>
 
     </form>
+    <svg></svg>
   <!-- API key -->
+  <!-- <svg width="500" height="500">   for testing
+      <rect x="0" y="0" width="200" height="200"></rect>
+  </svg> -->
   <script type="text/javascript" src="js/config.js"></script>
   <!-- Our JS -->
   <div id="plot"></div>
   <!-- <script type="text/javascript" src="js/logic.js"></script> -->
+  <script type="text/javascript" src="bubbleChart.js"></script>
+  <script src="https://d3js.org/d3-color.v1.min.js"></script>
+  <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  
 
-  <script type="text/javascript" src="js/slider_plot_through_years_USA.js"></script>
+  <!-- <script type="text/javascript" src="js/slider_plot_through_years_USA.js"></script> -->
 
 </body>
 </html>
