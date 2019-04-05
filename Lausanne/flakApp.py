@@ -51,7 +51,7 @@ from models import *
 
 @app.route('/map')
 def hello_world():
-    """List all available api routes."""
+  
     return (
       render_template("map.html")
     )
@@ -67,7 +67,7 @@ def land():
   )
 @app.route('/data/<csv>')
 def data(csv):
-  return send_from_directory('../data/',csv, as_attachment=True)
+  return send_from_directory('data/',csv, as_attachment=True)
 @app.route('/mapData')
 def map_data():
   subq = (db.session.query(raw.country_id,raw.Medal,func.count(raw.id)).group_by(raw.country_id,raw.Medal)).subquery()

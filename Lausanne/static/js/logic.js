@@ -62,11 +62,13 @@ L
 
 var link = "raw/THISISTHEDATA.json";
 
-// Olympic Color LAYER 
-// ************************************************************
+var link = "data/geo_json_total.json";
 
-// Grab GEOJSON for Olympic Color Layer
-d3.json(link, function(data) {
+// Grab GEOJSON
+d3.json(link, function(error, data) {
+  if (error) return console.warn(error);
+  
+  console.log(data.features)
 L.geoJson(data, {
 style: function(feature) {
   return {
