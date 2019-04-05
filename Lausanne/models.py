@@ -15,6 +15,7 @@ class raw(db.Model):
     Gender = db.Column(db.String(64))
     Discipline = db.Column(db.String(64))
     Athlete = db.Column(db.String(64))
+    Sport = db.Column(db.String(64))
     def __repr__(self):
         return '<raw %r>' % (self.id)
     

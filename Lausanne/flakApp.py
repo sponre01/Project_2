@@ -86,7 +86,10 @@ def map_data():
   return(
     jsonify(country_dic)
   )
-
+@app.route('/countryData/<id>')
+def countryData(id):
+  count = db.session.query(raw.NOC,raw.Edition, raw.Sport, func.count(raw.id)).group_by(raw.Edition,raw.Sport).filter(raw.country_id == id).all()
+  return jsonify(count)
 @app.route("/api/v1.0/olympians", methods=['GET'])
 def names():
     """Return a list of all olympian data"""
