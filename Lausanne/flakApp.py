@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import datetime as dt
 from sqlalchemy.pool import NullPool
-from flask import Flask, jsonify, render_template, abort, request, send_from_directory, redirect
+from flask import Flask, jsonify, render_template, abort, request, send_from_directory, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import pymysql
@@ -61,10 +61,10 @@ def home():
     render_template('home.html')
   )
 
-@app.route('/country')
+@app.route('/country/')
 def land():
   print('in a country')
-  return redirect('../country/FRA')
+  return redirect(url_for('countryPlot',NOC ='SUI'))
   
 @app.route('/data/<csv>')
 def data(csv):
