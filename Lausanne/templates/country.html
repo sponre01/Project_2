@@ -35,8 +35,8 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="home.html">Home</a></li>
-        <li><a href="map">Map</a></li>
-        <li><a href="country">Country Data</a></li>
+        <li><a href="/map">Map</a></li>
+        <li><a href="/country">Country Data</a></li>
       </ul>
     </div>
   </div>
@@ -54,13 +54,18 @@
 <script>
 
   // List of words
-  var myWords =
-    [{word: "Running", size: "10"}, 
-    {word: "Surfing", size: "20"}, 
-    {word: "Climbing", size: "50"}, 
-    {word: "Kiting", size: "30"}, 
-    {word: "Sailing", size: "20"}, 
-    {word: "Snowboarding", size: "60"} ]
+ 
+  var myWords = [ {word: '{{words.0.word}}' ,size: {{words.0.size}}}
+        {% for sport in words %}
+            ,{ word: '{{sport.word }}' , size: {{sport.size}} }
+            {% endfor %}
+]
+    // [{word: "Running", size: "10"}, 
+    // {word: "Surfing", size: "20"}, 
+    // {word: "Climbing", size: "50"}, 
+    // {word: "Kiting", size: "30"}, 
+    // {word: "Sailing", size: "20"}, 
+    // {word: "Snowboarding", size: "60"} ]
   
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 10, bottom: 10, left: 10},
@@ -107,24 +112,6 @@
   </script>
 
 
-<!-- Haneen's Bubble Chart Here -->
-
-  <form class="form-inline">
-      <div class="form-group">
-        <label for="Olymics">The Olymics Breakdown For {{data.0.country_name}}</label>
-        <input type="text" class="form-control" id="OlympicsInfo" placeholder="Let's Choose a Criteria">
-      </div>
-      <button id="submit" type="submit" class="btn btn-default">Plot Breakdown</button>
-    </form>
-  <!-- API key -->
-  <script type="text/javascript" src="../static/js/config.js"></script>
-  <!-- Our JS -->
-  <div id="plot"></div>
-  <!-- <script type="text/javascript" src="static/js/logic.js"></script> -->
-
-  <script type="text/javascript" src="../static/js/slider_plot_through_years_USA.js"></script>
-
-<!-- Flags -->
 
 </body>
 </html>

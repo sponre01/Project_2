@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import datetime as dt
 from sqlalchemy.pool import NullPool
-from flask import Flask, jsonify, render_template, abort, request, send_from_directory
+from flask import Flask, jsonify, render_template, abort, request, send_from_directory, redirect
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import pymysql
@@ -60,11 +60,12 @@ def home():
   return(
     render_template('home.html')
   )
-@app.route('/country/')
+
+@app.route('/country')
 def land():
-  return(
-    render_template('country.html')
-  )
+  print('in a country')
+  return redirect('../country/FRA')
+  
 @app.route('/data/<csv>')
 def data(csv):
   return send_from_directory('data/',csv, as_attachment=True)
@@ -93,7 +94,17 @@ def countryData(id):
 @app.route('/country/<NOC>')
 def countryPlot(NOC):
   country_data = db.session.query(country_ref.id, country_ref.code, country_ref.country_name,country_ref.flag_image).filter(country_ref.code== NOC).all()
-  return render_template('country.html', data= country_data)
+  print(country_data)
+  word_cloud = db.session.query(raw.Sport,func.count(raw.id).label('nMed')).group_by(raw.Sport).filter(raw.country_id== country_data[0].id).all()
+  words = []
+  for sport in word_cloud:
+    sp ={}
+    sp['word'] = sport.Sport
+    sp['size'] = sport.nMed
+    words.append(sp)
+  print(words)
+  
+  return render_template('country.html', data= country_data,words = words)
 @app.route("/api/v1.0/olympians", methods=['GET'])
 def names():
     """Return a list of all olympian data"""
