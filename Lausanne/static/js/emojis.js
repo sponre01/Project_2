@@ -1,4 +1,4 @@
-Sports_emoji= {
+var Sports_emoji= {
     "Athletics": "👟",
     "Archery": "🏹",
 
