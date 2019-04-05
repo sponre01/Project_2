@@ -25,6 +25,9 @@ CREATE TABLE IF NOT EXISTS "flags_ref" (
 CREATE TABLE IF NOT EXISTS "country_ref" ( id integer primary key autoincrement, code text, country_name text, flag_source text, flag_image text);
 CREATE TABLE sqlite_sequence(name,seq);
 
-insert into olympics_raw(city, `Edition`,`Sport`,`Discipline`,`Athlete`,`NOC`,`Gender`,`Event`,`Event_gender`,`Medal`) select * from olympics_old;
+insert into olympics_raw(city, `Edition`,`Sport`,`Discipline`,`Athlete`,`NOC`,`Gender`,`Event`,`Event_gender`,`Medal`) 
+select * from olympics_old;
 
 update olympics_raw set country_id = (select id from country_ref where olympics_raw.NOC = country_ref.code);
+
+ select country_id, medal,count(id) from olympics_raw group by country_id, Medal;
