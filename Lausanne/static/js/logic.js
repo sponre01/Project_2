@@ -101,7 +101,7 @@ onEachFeature: function(feature, layer) {
   "<p><h3> Gold medals: " + feature.properties.gold + "</h3></p>" +
   "<p><h3> Silver medals: " + feature.properties.silver +"</h3></p>" +
   "<p><h3> Bronze medals: " + feature.properties.bronze +"</h3></p>" +
-  "<button id='button' type='submit' class='btn btn-default'>See the Breakdown</button>");
+  "<a href=\"/country/" +feature.properties.ISO_A3 +"\" class=\"button\">Go to Country page</a>");
 
 }
 }).addTo(olympicColors);

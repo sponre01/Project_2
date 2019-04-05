@@ -10,9 +10,10 @@ function sport_emoji(semoji) {
   return semoji;
 }
 ;
-
+link = 'countryData/4' 
 // load csv ===  didnt use but good for error check
-var Olympics_csv = d3.csv("../../data/Book1.csv", function(error, data) {
+//var Olympics_csv = d3.csv("../../data/Book1.csv", function(error, data) {
+var Olympic_json = d3.json(link, function(error, data)
   if (error) return console.warn(error);
   console.log(data[0].City);
   // when stuck try something like:   console.log(data[0].City);
