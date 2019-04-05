@@ -90,9 +90,9 @@ def map_data():
 def countryData(id):
   count = db.session.query(raw.NOC,raw.Edition, raw.Sport, func.count(raw.id)).group_by(raw.Edition,raw.Sport).filter(raw.country_id == id).all()
   return jsonify(count)
-@app.route('/county/<NOC>.html')
+@app.route('/country/<NOC>')
 def countryPlot(NOC):
-  county_data = db.session.query(country_ref.id, country_ref.code, country_ref.country_name,country_ref.flag_image).all()
+  country_data = db.session.query(country_ref.id, country_ref.code, country_ref.country_name,country_ref.flag_image).filter(country_ref.code== NOC).all()
   return render_template('country.html', data= country_data)
 @app.route("/api/v1.0/olympians", methods=['GET'])
 def names():
