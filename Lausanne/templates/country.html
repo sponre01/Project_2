@@ -34,9 +34,9 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="home.html">Home</a></li>
-        <li><a href="/map">Map</a></li>
-        <li><a href="/country">Country Data</a></li>
+        <li class="Home"><a href="{{url_for('home')}}">Home</a></li>
+        <li><a href="{{url_for('hello_world')}}">Map</a></li>
+        <li><a href='{{url_for("land")}}'>Country Data</a></li>
       </ul>
     </div>
   </div>
