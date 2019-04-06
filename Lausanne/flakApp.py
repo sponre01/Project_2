@@ -90,7 +90,8 @@ def map_data():
 @app.route('/countryData/<id>')
 def countryData(id):
   goldCase = case([(raw.Medal == 'Gold', 1)], else_=0)
-  count = db.session.query(raw.Edition, raw.Gender, raw.Sport,func.count(raw.id).label('totMed'),func.sum(goldCase).label('goldMed')).group_by(raw.Edition,raw.Gender,raw.Sport).filter(country_ref.code=='FRA').all()
+  count = db.session.query(raw.Edition, raw.Gender, raw.Sport,func.count(raw.id).label('totMed'),func.sum(goldCase).label('goldMed')).group_by(raw.Edition,raw.Gender,raw.Sport).filter(raw.country_id==id).all()
+ 
   editions =[]
   for result in count:
     edition ={}
