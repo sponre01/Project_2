@@ -18,14 +18,16 @@
 
 <body>
 
-<!-- How to add the charcters? -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
   <!-- when in doubt use jello world in the part to check if it works -->
   <!-- <div id="map"></div>  I will use this later to add the country in the background--> 
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="http://d3js.org/d3.v5.min.js" charset="utf-8"></script>
   <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
-
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://d3js.org/d3-color.v1.min.js"></script>
+  <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
 
   <form class="form-inline">
       <div class="form-group">
@@ -37,22 +39,32 @@
         </button>
 
     </form>
-    <svg></svg>
-  <!-- API key -->
-  <!-- <svg width="500" height="500">   for testing
+<!-- /////////////////////////for the bubblke plot////////////////////////////// -->
+<svg  width ="1000" height="1000">
+</svg>
+<!-- ///////////////////////////////////////////////////////////////////////// -->
+    
+  <!-- /////////////// for testing////////////////////////////////////// -->
+  <!-- <svg width="500" height="500">  
       <rect x="0" y="0" width="200" height="200"></rect>
   </svg> -->
-  <script type="text/javascript" src="js/config.js"></script>
-  <!-- Our JS -->
-  <div id="plot"></div>
-  <!-- <script type="text/javascript" src="js/logic.js"></script> -->
-  <script type="text/javascript" src="bubbleChart.js"></script>
-  <script src="https://d3js.org/d3-color.v1.min.js"></script>
-  <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  
+<!-- ///////////////////////////////////////////////////////////////////// -->
 
-  <!-- <script type="text/javascript" src="js/slider_plot_through_years_USA.js"></script> -->
+  <defs>
+      <!-- To store grafical objects to use later -->
+    </defs>
+
+  <div id="plot"></div> 
+    <!-- API key -->
+  <script type="text/javascript" src="js/config.js"></script>
+  <div>
+      <script type="text/javascript" src="emojis.js"></script>
+      <script type="text/javascript" src="bubbleChart.js"></script>
+
+  </div>
+  <div>
+      <!-- <script type="text/javascript" src="js/slider_plot_through_years_USA.js"></script> -->
+  </div>
 
 </body>
 </html>
