@@ -3,7 +3,7 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
   //Edition	Gender	Sport	Medal_Bronze	Medal_Gold	Medal_Silver	Total_Medals
   // 1896	Men	Artistic_G	7	28	10	45
   var color = d3.scale.category10()
-  color()
+ 
   // Create a lookup table to sort and regroup the columns of data,
     // first by year, then by Gender:
     var lookup = {};
@@ -20,12 +20,19 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
           y: [],
           id: [],
           text: [],
-          marker: {size: []}
+          marker: {size: [],color:[]}
         };
       }
       return trace;
     }
-  
+    function genderColor(g) {
+      
+      if (g=='Men') {
+        
+        return 'rgb(0,0,255)';
+      }
+      else return 'rgb(255,0,0)';
+    }
     // Go through each row, get the right trace, and append the data:
     for (var i = 0; i < data.length; i++) {
       var datum = data[i];
@@ -35,6 +42,9 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
       trace.x.push(datum.Total_Medals);
       trace.y.push(datum.Medal_Gold);
       trace.marker.size.push(datum.Total_Medals);
+      trace.marker.color.push(genderColor(datum.Gender)) ;
+        
+      
     }
   
     // Get the group names:
@@ -47,7 +57,7 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
     // Create the main traces, one for each gender:
     var traces = [];
     for (i = 0; i < genders.length; i++) {
-      console.log(i)
+      //console.log(i)
       var data = firstYear[genders[i]];
       if(!data) 
         continue;
@@ -65,7 +75,7 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
         text: data.text.slice(),
         mode: 'markers',
         marker: {
-          color:   color(i),
+          color: genderColor('Men'), //first olympics were only men
           size: data.marker.size.slice(),
           sizemode: 'area',
          sizeref: .1
@@ -82,8 +92,11 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
       frames.push({
         name: years[i],
         data: genders.map(function (Gender) {
+        //  console.log(Gender)
+       //   console.log(getData(years[i], Gender))
           return getData(years[i], Gender);
         })
+        
       })
     }
   
