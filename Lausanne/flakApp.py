@@ -18,7 +18,7 @@ pymysql.install_as_MySQLdb()
 
 # engine = create_engine("sqlite:///Resources/hawaii.sqlite",
 #                 poolclass=NullPool)
-engine = create_engine("sqlite:///../data/new_olympics.db")
+engine = create_engine("sqlite:///data/new_olympics.db")
 # reflect an existing database into a new model
 Base = automap_base()
 # reflect the tables
@@ -33,7 +33,7 @@ session = Session(engine)
 ###############################################
 ######## TESTING TABLE EXISTENCE ##############
 ###############################################
-conn = sqlite3.connect('../data/new_olympics.db')
+conn = sqlite3.connect('data/new_olympics.db')
 cursor = conn.cursor()
 cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
 print(cursor.fetchall())
@@ -44,7 +44,7 @@ print(cursor.fetchall())
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../data/new_olympics.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/new_olympics.db'
 db = SQLAlchemy(app)
 
 from models import *
