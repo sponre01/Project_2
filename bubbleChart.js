@@ -1,8 +1,9 @@
 Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
- 
+  if(err) return (err);
   //Edition	Gender	Sport	Medal_Bronze	Medal_Gold	Medal_Silver	Total_Medals
   // 1896	Men	Artistic_G	7	28	10	45
-  
+  var color = d3.scale.category10()
+  color()
   // Create a lookup table to sort and regroup the columns of data,
     // first by year, then by Gender:
     var lookup = {};
@@ -40,18 +41,22 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
     var years = Object.keys(lookup);
     // In this case, every year includes every Gender, so we
     // can just infer the Genders from the *first* year:
+    var lastYear = lookup[years[years.length -1]];
+    var genders = Object.keys(lastYear);
     var firstYear = lookup[years[0]];
-    var genders = Object.keys(firstYear);
-  
     // Create the main traces, one for each gender:
     var traces = [];
     for (i = 0; i < genders.length; i++) {
+      console.log(i)
       var data = firstYear[genders[i]];
+      if(!data) 
+        continue;
      // One small note. We're creating a single trace here, to which
      // the frames will pass data for the different years. It's
      // subtle, but to avoid data reference problems, we'll slice
      // the arrays to ensure we never write any new data into our
      // lookup table:
+      console.log(data)
       traces.push({
         name: genders[i],
         x: data.x.slice(),
@@ -60,9 +65,10 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
         text: data.text.slice(),
         mode: 'markers',
         marker: {
+          color:   color(i),
           size: data.marker.size.slice(),
           sizemode: 'area',
-          sizeref: 200000
+         sizeref: .1
         }
       });
     }
