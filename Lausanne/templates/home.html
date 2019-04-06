@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
   <link rel="stylesheet" href="../static/css/style.css">
 </head>
 
@@ -24,9 +25,9 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Map</a></li>
-        <li><a href="#">Country Data</a></li>
+        <li class="active"><a href="home.html">Home</a></li>
+        <li><a href="map">Map</a></li>
+        <li><a href="country">Country Data</a></li>
       </ul>
     </div>
   </div>
@@ -34,7 +35,7 @@
 
 <div class="jumbotron">
   <div class="container text-center">
-    <h1>Olympics By The Data</h1>     
+    <h1 class="ml3">Olympics By The Data</h1>     
     <p>A sweat-free way to be an olympian. </p> 
   </div>
 </div>
@@ -42,16 +43,22 @@
 <div class="container-fluid bg-3 text-center">    
   <div class="row">
     <div class="col-sm-4">
-      <p>The rings represent the union of the five continents and the meeting of athletes from around the world at the Olympic Games.</p>
-      <img src="https://images-na.ssl-images-amazon.com/images/I/71Hk4-gQvVL._SY355_.jpg" class="img-responsive" style="width:100%" alt="Image">
+      <p>Check out this Reader's Digest Article on the meaning of the Olympic Rings.</p>
+      <a href="https://www.rd.com/culture/olympic-rings-meaning/">
+      <img src="https://www.rd.com/wp-content/uploads/2017/08/The-Real-Meaning-Behind-Those-5-Olympic-Rings-1024x683.jpg" class="img-responsive" style="width:100%" alt="Article">
+      </a>
     </div>
     <div class="col-sm-4"> 
       <p>Data Exploration Warm Up: Listen to the official opening song of the games.</p>
-      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+      <a href="https://www.youtube.com/watch?reload=9&v=MCqUESCoB1w">
+      <img src="https://image.shutterstock.com/image-vector/music-note-design-element-doodle-260nw-616470641.jpg" class="img-responsive" style="width:100%" alt="Song">
+      </a>
     </div>
     <div class="col-sm-4"> 
-      <p>Click map image to Start Exploring </p>
-      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+      <p>Click map to start exploring the Olympic by the Data </p>
+      <a href="map">
+      <img src="https://2.bp.blogspot.com/-TJ8FhbG6qMw/V-Uh9bDgUMI/AAAAAAAAACs/oULGutyBVXcPY4IZuCyA7zHGf6pHmrh5ACLcB/s1600/Story-Behind-Olympic-Rings.jpg" class="img-responsive" style="width:100%" alt="Map">
+      </a>
     </div>
   </div>
 </div><br>
@@ -87,4 +94,6 @@
 </footer>
 
 </body>
+<script src="../static/js/new_lib.js"></script>
+
 </html>

@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import datetime as dt
 from sqlalchemy.pool import NullPool
-from flask import Flask, jsonify, render_template, abort, request, send_from_directory
+from flask import Flask, jsonify, render_template, abort, request, send_from_directory, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import pymysql
@@ -18,7 +18,7 @@ pymysql.install_as_MySQLdb()
 
 # engine = create_engine("sqlite:///Resources/hawaii.sqlite",
 #                 poolclass=NullPool)
-engine = create_engine("sqlite:///../data/new_olympics.db")
+engine = create_engine("sqlite:///data/new_olympics.db")
 # reflect an existing database into a new model
 Base = automap_base()
 # reflect the tables
@@ -33,7 +33,7 @@ session = Session(engine)
 ###############################################
 ######## TESTING TABLE EXISTENCE ##############
 ###############################################
-conn = sqlite3.connect('../data/new_olympics.db')
+conn = sqlite3.connect('data/new_olympics.db')
 cursor = conn.cursor()
 cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
 print(cursor.fetchall())
@@ -44,14 +44,14 @@ print(cursor.fetchall())
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../data/new_olympics.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/new_olympics.db'
 db = SQLAlchemy(app)
 
 from models import *
 
 @app.route('/map')
 def hello_world():
-    """List all available api routes."""
+  
     return (
       render_template("map.html")
     )
@@ -60,14 +60,15 @@ def home():
   return(
     render_template('home.html')
   )
+
 @app.route('/country/')
 def land():
-  return(
-    render_template('country.html')
-  )
+  print('in a country')
+  return redirect(url_for('countryPlot',NOC ='SUI'))
+  
 @app.route('/data/<csv>')
 def data(csv):
-  return send_from_directory('../data/',csv, as_attachment=True)
+  return send_from_directory('data/',csv, as_attachment=True)
 @app.route('/mapData')
 def map_data():
   subq = (db.session.query(raw.country_id,raw.Medal,func.count(raw.id)).group_by(raw.country_id,raw.Medal)).subquery()
@@ -86,7 +87,24 @@ def map_data():
   return(
     jsonify(country_dic)
   )
-
+@app.route('/countryData/<id>')
+def countryData(id):
+  count = db.session.query(raw.NOC,raw.Edition, raw.Sport, func.count(raw.id)).group_by(raw.Edition,raw.Sport).filter(raw.country_id == id).all()
+  return jsonify(count)
+@app.route('/country/<NOC>')
+def countryPlot(NOC):
+  country_data = db.session.query(country_ref.id, country_ref.code, country_ref.country_name,country_ref.flag_image).filter(country_ref.code== NOC).all()
+  print(country_data)
+  word_cloud = db.session.query(raw.Sport,func.count(raw.id).label('nMed')).group_by(raw.Sport).filter(raw.country_id== country_data[0].id).all()
+  words = []
+  for sport in word_cloud:
+    sp ={}
+    sp['word'] = sport.Sport
+    sp['size'] = sport.nMed
+    words.append(sp)
+  print(words)
+  
+  return render_template('country.html', data= country_data,words = words)
 @app.route("/api/v1.0/olympians", methods=['GET'])
 def names():
     """Return a list of all olympian data"""

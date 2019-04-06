@@ -1,94 +1,196 @@
-// silver: #C0C0C0 or #A7A7AD
-// bronze: #cd7f32 or #A77044
-// gold: #ffd700 or #D6AF36
-// grayish violet: #c5c1cf
+// Create function to color countries based on total medals won
+function getColor(d) {
+  return d > 1000 ? '#3e76ec' :
+         d > 500 ? '#555555' :
+         d > 100 ? '#ff0000' :
+         d > 10  ? '#ffce01' :
+                   '#179a13';
+}
 
+function getHeat(d) {
+  return d > 1000 ? '#800026' :
+         d > 500  ? '#BD0026' :
+         d > 200  ? '#E31A1C' :
+         d > 100  ? '#FC4E2A' :
+         d > 50   ? '#FD8D3C' :
+         d > 20   ? '#FEB24C' :
+         d > 10   ? '#FED976' :
+                    '#FFEDA0';
+}
+
+// Adding tile layers
+var graymap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
+  maxZoom: 18,
+  id: "mapbox.light",
+  accessToken: API_KEY
+});
+
+var outdoors = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+maxZoom: 18,
+id: "mapbox.outdoors",
+accessToken: API_KEY
+});
 
 // Creating map object
 var map = L.map("map", {
   center: [30, 0],
-  zoom: 3
-});
+  zoom: 3,
+  layers: [graymap, outdoors]
+  });
 
-// Adding tile layer
-L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-  attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-  maxZoom: 18,
-  id: "mapbox.outdoors",
-  accessToken: API_KEY
-}).addTo(map);
+graymap.addTo(map);
 
-var link = "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson";
+var olympicColors = new L.LayerGroup();
+var heatmap = new L.LayerGroup();
 
-// Grab GEOJSON
+var baseMaps = {
+  Grayscale: graymap,
+  Outdoors: outdoors
+};
+
+var overlays = {
+  "Olympic Colors": olympicColors,
+  "Traditional Heatmap": heatmap
+};
+
+L
+  .control
+  .layers(baseMaps, overlays)
+  .addTo(map);
+
+var link = "raw/geo_json_total.json";
+
+// Olympic Color LAYER 
+// ************************************************************
+
+// Grab GEOJSON for Olympic Color Layer
 d3.json(link, function(data) {
-  L.geoJson(data, {
-    style: function(feature) {
-      return {
-        color: "white",
-        fillColor: "silver",
-        fillOpacity: 0.5,
-        weight: 1.0
-      };
-    },
+  console.log(data.features)
+L.geoJson(data, {
+  style: function(feature) {
+    return {
+      color: "white",
+      fillColor: getColor(feature.properties.total),
+      fillOpacity: 0.8,
+      weight: 1.5
+    };
+  },
 
-  // Mouseover/mouseout events
-    onEachFeature: function(feature, layer) {
-      layer.on({
-        mouseover: function(event) {
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.1
-          });
-        },
-        mouseout: function(event) {
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.5
-          });
-        },
-      });
-      // Popup info
-      layer.bindPopup("<h1>" + feature.properties.ADMIN + "</h1> <hr> <h2>" + feature.properties.ISO_A3 + "</h2>" + "<button id='button' type='submit' class='btn btn-default'>See the Breakdown</button>");
-    }
-  }).addTo(map);
+// Mouseover/mouseout events
+  onEachFeature: function(feature, layer) {
+    layer.on({
+      mouseover: function(event) {
+        layer = event.target;
+        layer.setStyle({
+          fillOpacity: 0.1
+        });
+      },
+      mouseout: function(event) {
+        layer = event.target;
+        layer.setStyle({
+          fillOpacity: 0.8
+        });
+      },
+    });
+    // Popup info
+    layer.bindPopup("<h1>" + feature.properties.ADMIN +"<br>"+ feature.properties.total + " total medals" + "</h1> <hr> <h2>" + 
+    //feature.properties.ISO_A3 + "</h2>" + 
+    "<p><h3> Gold medals: " + feature.properties.gold + "</h3></p>" +
+    "<p><h3> Silver medals: " + feature.properties.silver +"</h3></p>" +
+    "<p><h3> Bronze medals: " + feature.properties.bronze +"</h3></p>" +
+    "<button id='button' type='submit' class='btn btn-default'>See the Breakdown</button>");
 
+  }
+}).addTo(olympicColors);
 
-// Button
-var button = d3.select("#button");
-  button.on("click", function() {
-    tbody.selectAll('*').remove();
-    var inputDate = d3.select("#datetime");
-    var inputText = inputDate.property("value")
-    var filteredData = tableData.filter(x => x.datetime === inputText);
-      })
-    })
+// make Olympic Color legend
+var legend = L.control({position: 'bottomleft'});
+legend.onAdd = function (map) {
 
-//   // Create a baseMaps object
-// var baseMaps = {
-//   "Street Map": streetmap,
-//   "Dark Map": darkmap
-// };
+  var div = L.DomUtil.create('div', 'info legend'),
+      grades = [0, 10, 100, 500, 1000],
+      labels = [];
+      div.innerHTML+='<div><b><h3>Legend</h3></b></div>';
+  // loop through our magnitude intervals and generate a label with a colored square for each interval
+  for (var i = 0; i < grades.length; i++) {
+      div.innerHTML +=
+          '<i style=\"background:' + getColor(grades[i] + 1) + '\"></li> ' + '<b>' +
+          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] +'</b>'+ '<br>' : '+');
+  }
 
-// // Create an overlay object
-// var overlayMaps = {
-//   "State Population": states,
-//   "City Population": cities
-// };
+  return div;
+};
 
-// // Define a map object
-// var myMap = L.map("map", {
-//   center: [37.09, -95.71],
-//   zoom: 5,
-//   layers: [streetmap, states, cities]
-// });
+legend.addTo(olympicColors);
 
-// // Pass our map layers into our layer control
-// // Add the layer control to the map
-// L.control.layers(baseMaps, overlayMaps, {
-//   collapsed: false
-// }).addTo(myMap);
+olympicColors.addTo(map);
 
 
+// HEATMAP LAYER 
+// ************************************************************
 
-});
+// Grab GEOJSON for Heatmap layer
+d3.json(link, function(data) {
+  console.log(data.features)
+L.geoJson(data, {
+  style: function(feature) {
+    return {
+      color: "white",
+      fillColor: getHeat(feature.properties.total),
+      fillOpacity: 0.8,
+      weight: 1.5
+    };
+  },
+
+// Mouseover/mouseout events
+  onEachFeature: function(feature, layer) {
+    layer.on({
+      mouseover: function(event) {
+        layer = event.target;
+        layer.setStyle({
+          fillOpacity: 0.1
+        });
+      },
+      mouseout: function(event) {
+        layer = event.target;
+        layer.setStyle({
+          fillOpacity: 0.8
+        });
+      },
+    });
+    // Popup info
+    layer.bindPopup("<h1>" + feature.properties.ADMIN +"<br>"+ feature.properties.total + " total medals" + "</h1> <hr> <h2>" + 
+    //feature.properties.ISO_A3 + "</h2>" + 
+    "<p><h3> Gold medals: " + feature.properties.gold + "</h3></p>" +
+    "<p><h3> Silver medals: " + feature.properties.silver +"</h3></p>" +
+    "<p><h3> Bronze medals: " + feature.properties.bronze +"</h3></p>" +
+    "<button id='button' type='submit' class='btn btn-default'>See the Breakdown</button>");
+
+  }
+}).addTo(heatmap);
+
+// make heatmap legend
+var heatlegend = L.control({position: 'bottomleft'});
+legend.onAdd = function (map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+      grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+      labels = [];
+      div.innerHTML+='<div><b><h3>Legend</h3></b></div>';
+  // loop through our magnitude intervals and generate a label with a colored square for each interval
+  for (var i = 0; i < grades.length; i++) {
+      div.innerHTML +=
+          '<i style=\"background:' + getHeat(grades[i] + 1) + '\"></li> ' + '<b>' +
+          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] +'</b>'+ '<br>' : '+');
+  }
+
+  return div;
+};
+
+heatlegend.addTo(heatmap);
+
+heatmap.addTo(map);
+
+})});
