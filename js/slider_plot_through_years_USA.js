@@ -27,9 +27,7 @@ console.log(data);
     if (!(byYear = lookup[Edition])) {;
       byYear = lookup[Edition] = {};
     }
-
-    
-	 // If a container for this year + continent doesn't exist yet,
+	 // If a container for this year + sport doesn't exist yet,
 	 // then create one:
     if (!(trace = byYear[Sport])) {
       trace = byYear[Sport] = {
@@ -48,15 +46,19 @@ console.log(data);
     
     var datum = data[i];
     console.log (datum);
-    var trace = getData(datum.Edition, datum.Sport); // capitalize verttihng to fit the cvs and ignore the var up
-    trace.text.push(datum.Sport);
-    trace.id.push(datum.Medal_Gold);
-    trace.x.push(datum.Medal_Gold+datum.Medal_Silver+datum.Medal_Bronze);
-    trace.y.push(datum.Medal_Gold);
-    trace.marker.size.push(datum.Medal_Gold);
+
+
+
+
+    // var trace = getData(datum.Edition, datum.Sport); // capitalize verttihng to fit the cvs and ignore the var up
+    // trace.text.push(datum.Medal_Silver);
+    // trace.id.push(datum.Medal_Silver);
+    // trace.x.push(datum.Medal_Gold+datum.Medal_Silver+datum.Medal_Bronze);
+    // trace.y.push(datum.Medal_Gold+datum.Medal_Silver+datum.Medal_Bronze);
+    // trace.marker.size.push(datum.Medal_Gold);
 
   }
-
+//can i show the first year????????g
 // console.log("lookup", lookup);
 // console.log("city", city);
 // console.log("edition",edition);

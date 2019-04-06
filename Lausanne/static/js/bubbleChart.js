@@ -1,8 +1,13 @@
-Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
+//var this_js_script = $('script[src*=somefile]'); // or better regexp to get the file name..
+//console.log(this_js_script);
+//var countryId = this_js_script.attr('countryId');  
+console.log(countryId);
+var link = '/countryData/' +countryId;
+Plotly.d3.json(link, function (err, data) {
   if(err) return (err);
   //Edition	Gender	Sport	Medal_Bronze	Medal_Gold	Medal_Silver	Total_Medals
-  // 1896	Men	Artistic_G	7	28	10	45
-  var color = d3.scale.category10()
+  // 1896	Men	Arti1stic_G	7	28	10	45
+  console.log(data);
  
   // Create a lookup table to sort and regroup the columns of data,
     // first by year, then by Gender:

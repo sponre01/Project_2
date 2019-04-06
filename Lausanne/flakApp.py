@@ -5,7 +5,7 @@ import pandas as pd
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, func
+from sqlalchemy import create_engine, func, case
 import datetime as dt
 from sqlalchemy.pool import NullPool
 from flask import Flask, jsonify, render_template, abort, request, send_from_directory, redirect, url_for
@@ -89,8 +89,20 @@ def map_data():
   )
 @app.route('/countryData/<id>')
 def countryData(id):
-  count = db.session.query(raw.NOC,raw.Edition, raw.Sport, func.count(raw.id)).group_by(raw.Edition,raw.Sport).filter(raw.country_id == id).all()
-  return jsonify(count)
+  goldCase = case([(raw.Medal == 'Gold', 1)], else_=0)
+  count = db.session.query(raw.Edition, raw.Gender, raw.Sport,func.count(raw.id).label('totMed'),func.sum(goldCase).label('goldMed')).group_by(raw.Edition,raw.Gender,raw.Sport).filter(country_ref.code=='FRA').all()
+  editions =[]
+  for result in count:
+    edition ={}
+    edition['Edition'] = result.Edition
+    edition['Gender'] = result.Gender
+    edition['Sport'] = result.Sport
+    edition['Total_Medals'] = result.totMed
+    edition['Medal_Gold'] = result.goldMed
+    editions.append(edition)
+
+      
+  return jsonify(editions)
 @app.route('/country/<NOC>')
 def countryPlot(NOC):
   country_data = db.session.query(country_ref.id, country_ref.code, country_ref.country_name,country_ref.flag_image).filter(country_ref.code== NOC).all()

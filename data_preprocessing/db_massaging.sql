@@ -30,4 +30,9 @@ select * from olympics_old;
 
 update olympics_raw set country_id = (select id from country_ref where olympics_raw.NOC = country_ref.code);
 
+<<<<<<< HEAD
  select country_id, medal,count(id) from olympics_raw group by country_id, Medal;
+ update country_ref set flag_image = (select f.flag_image from flags_ref f join country_ref c where replace(replace(f.country,'-',' '),'the ','') = lower(c.country_name) and f.country like '%-%');
+=======
+ select country_id, medal,count(id) from olympics_raw group by country_id, Medal;
+>>>>>>> 59b5180b28eec17e0ba1d2a902de92f7843a0a1b
