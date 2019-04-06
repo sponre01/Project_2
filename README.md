@@ -41,7 +41,8 @@ Team members: ayang2012, haneenammouri, Michele-Lodl, jzefron, sponre01
 4) The code: the interesting thing here is that originally the data was coming from two different sources, and that caused a lot of problems in building the map. We figured out that merging on the back end was way more efficient.
 
 ### View Three - Bubbles
-1) The bubble diagram gives you a visual representation of the total number of medals won for a country, broken down by sport
+1) The bubble diagram gives you a visual representation of the total number of medals won for a country, broken down by sport pre year. 
+2) The second criteria are breaking down the total medals won by sport by year. The data for each year is saved in a frame (using a for loop) and connected to the year it represents. The slider executes a plotly.js API command (Plotly.animate) to loop through the years when we press "Play".
 
 
 
