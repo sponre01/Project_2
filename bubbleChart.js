@@ -1,7 +1,12 @@
 Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
   if(err) return (err);
+<<<<<<< Updated upstream
   //Edition	Gender	Sport	Medal_Bronze	Medal_Gold	Medal_Silver	Total_Medals
   // 1896	Men	Artistic_G	7	28	10	45
+=======
+  //Edition Gender  Sport   Medal_Bronze    Medal_Gold  Medal_Silver    Total_Medals
+  // 1896   Men Artistic_G  7   28  10  45
+>>>>>>> Stashed changes
   var color = d3.scale.category10()
   color()
   // Create a lookup table to sort and regroup the columns of data,
@@ -65,7 +70,11 @@ Plotly.d3.csv('year_gender_Medals.csv', function (err, data) {
         text: data.text.slice(),
         mode: 'markers',
         marker: {
+<<<<<<< Updated upstream
           color:   color(i),
+=======
+          color:  ,
+>>>>>>> Stashed changes
           size: data.marker.size.slice(),
           sizemode: 'area',
          sizeref: .1
